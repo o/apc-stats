@@ -11,15 +11,15 @@ class APCStats {
         $this->setMemoryInfo();
     }
 
-    public function setFileCacheInfo() {
+    protected function setFileCacheInfo() {
         $this->fileCacheInfo = new ArrayObject(apc_cache_info('opcode', 1));
     }
 
-    public function setUserCacheInfo() {
+    protected function setUserCacheInfo() {
         $this->userCacheInfo = new ArrayObject(apc_cache_info('user', 1));
     }
 
-    public function setMemoryInfo() {
+    protected function setMemoryInfo() {
         $this->memoryInfo = new ArrayObject(apc_sma_info());
     }
 
