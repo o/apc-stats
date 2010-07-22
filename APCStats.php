@@ -80,7 +80,7 @@ class APCStats {
     }
 
     public function getUptime() {
-        return $this->getUptime();
+        return $this->getNow() - $this->getCacheStartTime();
     }
 
     public function getFileHits() {
