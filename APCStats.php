@@ -79,6 +79,10 @@ class APCStats {
         return time();
     }
 
+    public function getUptime() {
+        return $this->getUptime();
+    }
+
     public function getFileHits() {
         return $this->getFileCacheInfo()->offsetGet('num_hits');
     }
@@ -88,15 +92,15 @@ class APCStats {
     }
 
     public function getFileRequestRate() {
-        return ($this->getFileHits() + $this->getFileMisses()) / ($this->getNow() - $this->getCacheStartTime());
+        return ($this->getFileHits() + $this->getFileMisses()) / $this->getUptime();
     }
 
     public function getFileHitRate() {
-        return ($this->getFileHits()) / ($this->getNow() - $this->getCacheStartTime());
+        return $this->getFileHits() / $this->getUptime();
     }
 
     public function getFileMissRate() {
-        return ($this->getFileMisses()) / ($this->getNow() - $this->getCacheStartTime());
+        return $this->getFileMisses() / $this->getUptime();
     }
 
     public function getFileInserts() {
@@ -104,7 +108,7 @@ class APCStats {
     }
 
     public function getFileInsertRate() {
-        return ($this->getFileInserts()) / ($this->getNow() - $this->getCacheStartTime());
+        return $this->getFileInserts() / $this->getUptime();
     }
 
     public function getUserHits() {
@@ -116,15 +120,15 @@ class APCStats {
     }
 
     public function getUserRequestRate() {
-        return ($this->getUserHits() + $this->getUserMisses()) / ($this->getNow() - $this->getCacheStartTime());
+        return ($this->getUserHits() + $this->getUserMisses()) / $this->getUptime();
     }
 
     public function getUserHitRate() {
-        return ($this->getUserHits()) / ($this->getNow() - $this->getCacheStartTime());
+        return $this->getUserHits() / $this->getUptime();
     }
 
     public function getUserMissRate() {
-        return ($this->getUserMisses()) / ($this->getNow() - $this->getCacheStartTime());
+        return $this->getUserMisses() / $this->getUptime();
     }
 
     public function getUserInserts() {
@@ -132,7 +136,7 @@ class APCStats {
     }
 
     public function getUserInsertRate() {
-        return ($this->getUserInserts()) / ($this->getNow() - $this->getCacheStartTime());
+        return $this->getUserInserts() / $this->getUptime();
     }
 
     public function getPhpVersion() {
