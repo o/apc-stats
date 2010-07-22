@@ -6,9 +6,16 @@ class APCStats {
     private $memoryInfo;
 
     function __construct() {
+        $this->checkEnvironment();
         $this->setFileCacheInfo();
         $this->setUserCacheInfo();
         $this->setMemoryInfo();
+    }
+
+    protected function checkEnvironment() {
+        if(!function_exists('apc_cache_info') || !($this->getFileCacheInfo())) {
+            throw new Exception('No cache info available. APC does not appear to be running or installed', 1);
+        }
     }
 
     protected function setFileCacheInfo() {
