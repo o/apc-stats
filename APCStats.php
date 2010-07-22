@@ -12,7 +12,7 @@ class APCStats {
     }
 
     public function setFileCacheInfo() {
-        $this->fileCacheInfo = new ArrayObject(apc_cache_info('opcode'));
+        $this->fileCacheInfo = new ArrayObject(apc_cache_info('opcode', 1));
     }
 
     public function setUserCacheInfo() {
@@ -36,124 +36,135 @@ class APCStats {
     }
 
     public function getSegmentSize() {
-        return $this->segmentSize;
+        return $this->getMemoryInfo()->offsetGet('seg_size');
+    }
+
+    public function getNumberOfSegments() {
+        return $this->getMemoryInfo()->offsetGet('num_seg');
     }
 
     public function getMemoryType() {
-        return $this->memoryType;
+        return $this->getFileCacheInfo()->offsetGet('memory_type');
     }
 
     public function getLockingType() {
-        return $this->lockingType;
+        return $this->getFileCacheInfo()->offsetGet('locking_type');
     }
 
     public function getFileUploadSupport() {
-        return $this->fileUploadSupport;
+        return $this->getFileCacheInfo()->offsetGet('file_upload_progress');
     }
 
     public function getApcSettings() {
-        return $this->apcSettings;
+        return new ArrayObject(ini_get_all('apc'));
     }
 
     public function getTotalMemory() {
-        return $this->totalMemory;
+        return $this->getSegmentSize() * $this->getNumberOfSegments();
     }
 
     public function getAvailableMemory() {
-        return $this->availableMemory;
+        return $this->getMemoryInfo()->offsetGet('avail_mem');
     }
 
     public function getUsedMemory() {
-        return $this->usedMemory;
+        return $this->getTotalMemory() - $this->getAvailableMemory();
     }
 
     public function getCacheStartTime() {
-        return $this->cacheStartTime;
+        return $this->getFileCacheInfo()->offsetGet('start_time');
     }
 
     public function getNow() {
-        return $this->now;
+        return time();
     }
 
     public function getFileHits() {
-        return $this->fileHits;
+        return $this->getFileCacheInfo()->offsetGet('num_hits');
     }
 
     public function getFileMisses() {
-        return $this->fileMisses;
+        return $this->getFileCacheInfo()->offsetGet('num_misses');
     }
 
     public function getFileRequestRate() {
-        return $this->fileRequestRate;
+        return ($this->getFileHits() + $this->getFileMisses()) / ($this->getNow() - $this->getCacheStartTime());
     }
 
     public function getFileHitRate() {
-        return $this->fileHitRate;
+        return ($this->getFileHits()) / ($this->getNow() - $this->getCacheStartTime());
     }
 
     public function getFileMissRate() {
-        return $this->fileMissRate;
+        return ($this->getFileMisses()) / ($this->getNow() - $this->getCacheStartTime());
     }
 
     public function getFileInserts() {
-        return $this->fileInserts;
+        return $this->getFileCacheInfo()->offsetGet('num_inserts');
     }
 
     public function getFileInsertRate() {
-        return $this->fileInsertRate;
+        return ($this->getFileInserts()) / ($this->getNow() - $this->getCacheStartTime());
     }
 
     public function getUserHits() {
-        return $this->userHits;
+        return $this->getUserCacheInfo()->offsetGet('num_hits');
     }
 
     public function getUserMisses() {
-        return $this->userMisses;
+        return $this->getUserCacheInfo()->offsetGet('num_misses');
     }
 
     public function getUserRequestRate() {
-        return $this->userRequestRate;
+        return ($this->getUserHits() + $this->getUserMisses()) / ($this->getNow() - $this->getCacheStartTime());
     }
 
     public function getUserHitRate() {
-        return $this->userHitRate;
+        return ($this->getUserHits()) / ($this->getNow() - $this->getCacheStartTime());
     }
 
     public function getUserMissRate() {
-        return $this->userMissRate;
+        return ($this->getUserMisses()) / ($this->getNow() - $this->getCacheStartTime());
     }
 
     public function getUserInserts() {
-        return $this->userInserts;
+        return $this->getUserCacheInfo()->offsetGet('num_inserts');
     }
 
     public function getUserInsertRate() {
-        return $this->userInsertRate;
+        return ($this->getUserInserts()) / ($this->getNow() - $this->getCacheStartTime());
     }
 
     public function getPhpVersion() {
-        return $this->phpVersion;
+        return phpversion();
     }
 
     public function getApcVersion() {
-        return $this->apcVersion;
+        return phpversion('apc');
     }
 
     public function getNumberOfFiles() {
-        return $this->numberOfFiles;
+        return $this->getFileCacheInfo()->offsetGet('num_entries');
     }
 
     public function getNumberOfVariables() {
-        return $this->numberOfVariables;
+        return $this->getUserCacheInfo()->offsetGet('num_entries');
     }
 
     public function getSizeOfFiles() {
-        return $this->sizeOfFiles;
+        return $this->getFileCacheInfo()->offsetGet('mem_size');
     }
 
     public function getSizeOfVariables() {
-        return $this->sizeOfVariables;
+        return $this->getUserCacheInfo()->offsetGet('mem_size');
     }
 
+}
+
+// Debug
+$a = new APCStats();
+$methods = get_class_methods($a);
+foreach ($methods as $value) {
+    var_dump(call_user_func(array($a, $value)));
 }
 ?>
