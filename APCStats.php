@@ -170,6 +170,21 @@ class APCStats {
         return $this->getUserCacheInfo()->offsetGet('mem_size');
     }
 
+    public function formatBytes ($bytes) {
+        $units = array (
+            'B',
+            'KB',
+            'MB',
+            'GB',
+            'TB'
+        );
+        $bytes = $bytes * 1024;
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        $bytes /= pow(1024, $pow);
+        return number_format($bytes, 2) . ' ' . $units[$pow];
+    }
+
 }
 
 // Debug
