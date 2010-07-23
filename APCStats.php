@@ -185,12 +185,10 @@ class APCStats {
         return number_format($bytes, 2) . ' ' . $units[$pow];
     }
 
+    public function formatNumbers ($number) {
+        return number_format($number, 2);
+    }
+
 }
 
-// Debug
-$a = new APCStats();
-$methods = get_class_methods($a);
-foreach ($methods as $value) {
-    var_dump(call_user_func(array($a, $value)));
-}
 ?>
