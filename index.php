@@ -13,7 +13,15 @@ $stats = new APCStats;
 		<link href="style.css" rel="stylesheet" type="text/css" />
 	</head>
 	<body>
-		<div class="header">Alternative PHP Cache Statistics</div>
+		<div class="header">
+			Alternative PHP Cache Statistics
+		</div>
+		<ul>
+			<li>
+				<span class='gray'>Total :</span> <?php echo $stats->formatBytes($stats->getTotalMemory()) ?> <span class='gray'>Used :</span> <?php echo $stats->formatBytes($stats->getUsedMemory()) ?> <span class='gray'>Available :</span> <?php echo $stats->formatBytes($stats->getAvailableMemory()) ?> <span class='right'>Memory Usage</span>
+			</li>
+				<?php $stats->makeBar($stats->getUsedMemory(), $stats->getTotalMemory()) ?>
+		</ul>
 		<div class="box">
 			<ul>
 				<li>
