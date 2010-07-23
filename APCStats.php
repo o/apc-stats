@@ -178,7 +178,6 @@ class APCStats {
             'GB',
             'TB'
         );
-        $bytes = $bytes * 1024;
         $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
         $pow = min($pow, count($units) - 1);
         $bytes /= pow(1024, $pow);
