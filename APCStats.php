@@ -1,4 +1,5 @@
 <?php
+
 class APCStats {
 
     private $fileCacheInfo;
@@ -13,7 +14,7 @@ class APCStats {
     }
 
     protected function checkEnvironment() {
-        if(!function_exists('apc_cache_info')) {
+        if (!function_exists('apc_cache_info')) {
             throw new Exception('No cache info available. APC does not appear to be running or installed', 1);
         }
     }
@@ -170,8 +171,8 @@ class APCStats {
         return $this->getUserCacheInfo()->offsetGet('mem_size');
     }
 
-    public function formatBytes ($bytes) {
-        $units = array (
+    public function formatBytes($bytes) {
+        $units = array(
             'B',
             'KB',
             'MB',
@@ -184,10 +185,25 @@ class APCStats {
         return number_format($bytes, 2) . ' ' . $units[$pow];
     }
 
-    public function formatNumbers ($number) {
+    public function formatNumbers($number) {
         return number_format($number, 2);
     }
 
-}
+    public function makeBar($amount, $total = 100) {
+        $percent = number_format(($amount / $total) * 100);
+        $remaining = 100 - $percent;
+        if ($percent < 10) {
+            echo "<div class='success bar' style='width: 100%;'>% $percent</div>";
+        } elseif ($percent >= 10 && $percent < 90) {
+            echo "<div class='error bar' style='width: $percent%;'>% $percent</div>";
+            echo "<div class='success bar' style='width: $remaining%;'>% $remaining</div>";
+        } elseif ($percent >= 90 && $percent < 100) {
+            echo "<div class='notice bar' style='width: 100%;'>% $percent</div>";
+        } elseif ($percent >= 100) {
+            echo "<div class='error bar' style='width: 100%;'>% $percent</div>";
+        }
+        echo "<div class='clear'></div>";
+    }
 
+}
 ?>
