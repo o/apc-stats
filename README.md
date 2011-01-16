@@ -3,7 +3,7 @@ APC Stats
 
 Open source web based interface that displays various information about Alternative PHP Cache on your server. It written in PHP 5 and licenced with GNU General Public License v3.
 
-It now in development edge, check it todo list
+*It now in development edge, check it todo list*
 
 Displays information about user variables and file cache;
 
@@ -14,7 +14,7 @@ Displays information about user variables and file cache;
 Installation
 ------------
 
-Latest version can be checkout from SVN, unzip all files and upload to a browsable path of your server.
+Unzip all files and upload to a browsable path of your server.
 
 Todo List
 ---------
