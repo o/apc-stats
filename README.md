@@ -11,6 +11,8 @@ Displays information about user variables and file cache;
 * Memory usage statistics
 * Hit, miss and request rate per second
 
+![Screenshot](http://osman.gen.tr/hq/apc-stats.png)
+
 Installation
 ------------
 
